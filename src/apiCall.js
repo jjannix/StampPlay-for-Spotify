@@ -23,7 +23,7 @@ getAlbumURI(songURI)
         device_id: '121fedfe8a93567b75e15f5b0b761043658251be'
       },
       headers: {
-        Authorization: 'Bearer BQC0WxgpVp73nXegFFHrYiqTaHr-bM8Zri-NFfr2y0MUpoNc5ygLVbSC7QF7Ur-MQROR70kvzWNZAtTVd0wWzTM7Pwq0EtTmuzRk-fP6p_HsJPOt4DvneUokFxS1ceKLpNghkbHfgvmmcLUdbXipoJ7tojuxDu6yMS4x7UhkEdh5zy2o6TVKbOj1ZYiawj80YouRdUb2zcCTp3KMZvuu',
+        Authorization: `Bearer ${process.env.TOKEN}`,
         'Content-Type': 'text/plain;charset=UTF-8',
       },
       data: `{
