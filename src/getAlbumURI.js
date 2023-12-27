@@ -5,6 +5,7 @@ dotenv.config();
 
 // export the function for external use
 module.exports = async function getAlbumURI(songURI) {
+  const songID = extractSongURI(process.env.SONG_LINK);
   console.log('SONGURI:', songURI);
   try {
 ;
@@ -12,7 +13,7 @@ module.exports = async function getAlbumURI(songURI) {
     // define API request options
     const options = {
       method: 'GET',
-      url: `https://api.spotify.com/v1/tracks/${songURI}`,
+      url: `https://api.spotify.com/v1/tracks/${songID}`,
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`
       }
@@ -32,9 +33,14 @@ module.exports = async function getAlbumURI(songURI) {
   }
 };
 
-// function to extract album URI from playlist link
-function extractAlbumURI(playlistLink) {
+
+function extractAlbumURI(albumLink) {
   const regex = /album\/([^/?]+)/;
-  const match = regex.exec(playlistLink);
+  const match = regex.exec(albumLink);
+  return match ? match[1] : null;
+}
+function extractSongURI(songLink) {
+  const regex = /track\/([^/?]+)/;
+  const match = regex.exec(songLink);
   return match ? match[1] : null;
 }
