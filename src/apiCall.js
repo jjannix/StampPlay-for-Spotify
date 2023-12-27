@@ -10,28 +10,31 @@ var songURI = process.env.SONGURI;
 var albumURI;
 var trackNumber
 
+console.log('SONGURI:', songURI);
+console.log('TOKEN:', process.env.TOKEN);
+
 // Call the exported function to get the album URI
 getAlbumURI(songURI)
   .then((result) => {
     albumURI = result.albumUri;
     trackNumber = result.trackNumber;
 
+
     const options = {
       method: 'PUT',
       url: 'https://api.spotify.com/v1/me/player/play',
       params: {
-        device_id: '121fedfe8a93567b75e15f5b0b761043658251be'
+        device_id: process.env.DEVICEID
       },
       headers: {
         Authorization: `Bearer ${process.env.TOKEN}`,
-        'Content-Type': 'text/plain;charset=UTF-8',
       },
       data: `{
         "context_uri": "spotify:album:${albumURI}",
         "offset": {
-            "position": ${trackNumber}
+            "position":${trackNumber}
         },
-        "position_ms": ${startInMs}
+        "position_ms":${startInMs}
       }`
     };
 

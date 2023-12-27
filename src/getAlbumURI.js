@@ -5,7 +5,10 @@ dotenv.config();
 
 // export the function for external use
 module.exports = async function getAlbumURI(songURI) {
+  console.log('SONGURI:', songURI);
   try {
+;
+
     // define API request options
     const options = {
       method: 'GET',
@@ -21,11 +24,11 @@ module.exports = async function getAlbumURI(songURI) {
     // Extract album URI
     const albumUri = extractAlbumURI(response.data.album.external_urls.spotify);
     const trackNumber = response.data.track_number - 1;
-    console.log(trackNumber)
+    console.log('Track Number:', trackNumber);
     return { albumUri, trackNumber };
   } catch (error) {
     console.error('Error:', error);
-    return null;
+    throw new Error('Failed to get album URI');
   }
 };
 
