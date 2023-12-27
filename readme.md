@@ -1,0 +1,1 @@
+# StampPlay for Spotify
