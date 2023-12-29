@@ -1,8 +1,8 @@
 {
   "name": "stampplay-for-spotify",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A Node.js tool to play a certain part of a song on Spotify.",
+  "main": "src/apiCall.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,14 +10,18 @@
     "type": "git",
     "url": "git+https://github.com/jjannix/StampPlay-for-Spotify.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["spotify", "music", "nodejs", "tool"],
+  "author": "Jannik",
   "bugs": {
     "url": "https://github.com/jjannix/StampPlay-for-Spotify/issues"
   },
   "homepage": "https://github.com/jjannix/StampPlay-for-Spotify#readme",
   "dependencies": {
     "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
   }
 }
