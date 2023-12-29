@@ -3,14 +3,12 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// export the function for external use
 module.exports = async function getAlbumURI(songURI) {
   const songID = extractSongURI(process.env.SONG_LINK);
   console.log('SONGURI:', songURI);
   try {
 ;
 
-    // define API request options
     const options = {
       method: 'GET',
       url: `https://api.spotify.com/v1/tracks/${songID}`,
@@ -19,10 +17,8 @@ module.exports = async function getAlbumURI(songURI) {
       }
     };
 
-    // make the API request
     const response = await axios(options);
 
-    // Extract album URI
     const albumUri = extractAlbumURI(response.data.album.external_urls.spotify);
     const trackNumber = response.data.track_number - 1;
     console.log('Track Number:', trackNumber);
