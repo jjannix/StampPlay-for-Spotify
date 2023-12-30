@@ -4,11 +4,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = async function getAlbumURI(songURI) {
-  const songID = extractSongURI(process.env.SONG_LINK);
+  const songID = extractSongURI(songURI);
   console.log('SONGURI:', songURI);
   try {
-;
-
     const options = {
       method: 'GET',
       url: `https://api.spotify.com/v1/tracks/${songID}`,
@@ -29,12 +27,12 @@ module.exports = async function getAlbumURI(songURI) {
   }
 };
 
-
 function extractAlbumURI(albumLink) {
   const regex = /album\/([^/?]+)/;
   const match = regex.exec(albumLink);
   return match ? match[1] : null;
 }
+
 function extractSongURI(songLink) {
   const regex = /track\/([^/?]+)/;
   const match = regex.exec(songLink);

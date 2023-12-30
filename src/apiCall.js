@@ -1,24 +1,70 @@
-const axios = require("axios").default;
+const fs = require('fs').promises;
+const readline = require('readline');
+const path = require('path');
+const axios = require('axios')
+const dotenv = require('dotenv');
 const getAlbumURI = require('./getAlbumURI');
 const stopPlayback = require('./stopPlayback');
-const dotenv = require('dotenv');
-
-dotenv.config();
-
-
-const startInMs = process.env.START_IN_MS;
-const stopAfter = process.env.STOP_AFTER; 
-const songURI = process.env.SONGURI;
 
 const colorReset = '\x1b[0m';
 const colorCyan = '\x1b[36m';
 
-console.log('TOKEN:', process.env.TOKEN);
-console.log(`The player will stop after ${colorMagenta}${stopAfter}${colorReset} millis.`)
+dotenv.config();
 
-async function playAndStop() {
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+let playlist;
+
+async function readPlaylist() {
   try {
-    const { albumUri, trackNumber } = await getAlbumURI(songURI);
+    const content = await fs.readFile('playlist.json', 'utf-8');
+    playlist = JSON.parse(content);
+  } catch (error) {
+    console.error('Error reading playlist:', error.message);
+    process.exit(1);
+  }
+}
+
+async function updatePlaylist() {
+  try {
+    const playlistPath = path.join(__dirname, 'playlist.json');
+    const fileExists = await fs.access(playlistPath).then(() => true).catch(() => false);
+
+    if (fileExists && playlist.length > 0) {
+      // Remove the first item from the playlist
+      playlist.shift();
+      // Write the updated playlist back to the file
+      await fs.writeFile(playlistPath, JSON.stringify(playlist, null, 2), 'utf-8');
+      console.log('Playlist updated successfully.');
+    } else {
+      if (!fileExists) {
+        console.error('Error: playlist.json does not exist.');
+      } else {
+        console.log('Playlist is empty.');
+      }
+    }
+  } catch (error) {
+    console.error('Error updating playlist:', error.message);
+    process.exit(1);
+  }
+}
+
+
+
+function askUserConfirmation() {
+  return new Promise((resolve) => {
+    rl.question('Do you want to continue? (y/n): ', (answer) => {
+      resolve(answer.toLowerCase() === 'y');
+    });
+  });
+}
+
+async function playAndStop(songLink, startInMs, stopAfter) {
+  try {
+    const { albumUri, trackNumber } = await getAlbumURI(songLink);
 
     const playOptions = {
       method: 'PUT',
@@ -42,10 +88,35 @@ async function playAndStop() {
     console.log(response.data);
 
     await stopPlayback(stopAfter / 1000);
-    console.log(`Playback stopped successfully after ${colorCyan}${stopAfter}${colorReset} millis.`);
+    console.log(`Playback stopped successfully after ${colorCyan}${stopAfter}${colorReset} seconds.`);
   } catch (error) {
     console.error('Error:', error);
   }
 }
 
-playAndStop();
+async function main() {
+  await readPlaylist();
+
+  while (playlist.length > 0) {
+    const currentEntry = playlist[0];
+
+    console.log(`Next item: ${currentEntry.link} (Value1: ${currentEntry.start}, Value2: ${currentEntry.end})`);
+
+
+    const shouldContinue = await askUserConfirmation();
+
+    if (shouldContinue) {
+      console.log('Continuing...');
+      await updatePlaylist();
+      await playAndStop(currentEntry.link, currentEntry.start, currentEntry.end);
+    } else {
+      console.log('Script aborted by user.');
+      break;
+    }
+  }
+
+
+  rl.close();
+}
+
+main();

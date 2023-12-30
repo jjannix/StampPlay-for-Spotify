@@ -10,18 +10,22 @@
     "type": "git",
     "url": "git+https://github.com/jjannix/StampPlay-for-Spotify.git"
   },
-  "keywords": ["spotify", "music", "nodejs", "tool"],
+  "keywords": [
+    "spotify",
+    "music",
+    "nodejs",
+    "tool"
+  ],
   "author": "Jannik",
   "bugs": {
     "url": "https://github.com/jjannix/StampPlay-for-Spotify/issues"
   },
   "homepage": "https://github.com/jjannix/StampPlay-for-Spotify#readme",
   "dependencies": {
-    "dotenv": "^16.3.1"
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.1"
   },
   "engines": {
     "node": ">=14.0.0"
-  },
-  "devDependencies": {
   }
 }
