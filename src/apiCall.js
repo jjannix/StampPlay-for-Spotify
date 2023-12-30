@@ -14,7 +14,7 @@ const colorReset = '\x1b[0m';
 const colorCyan = '\x1b[36m';
 
 console.log('TOKEN:', process.env.TOKEN);
-console.log(`The player will stop after ${colorMagenta}${stopAfter}${colorReset} millis.`)
+console.log(`The player will stop after ${colorCyan}${stopAfter}${colorReset} millis.`)
 
 async function playAndStop() {
   try {
