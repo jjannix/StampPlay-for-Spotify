@@ -10,8 +10,11 @@ const startInMs = process.env.START_IN_MS;
 const stopAfter = process.env.STOP_AFTER; 
 const songURI = process.env.SONGURI;
 
-console.log('SONGURI:', songURI);
+const colorReset = '\x1b[0m';
+const colorCyan = '\x1b[36m';
+
 console.log('TOKEN:', process.env.TOKEN);
+console.log(`The player will stop after ${colorMagenta}${stopAfter}${colorReset} millis.`)
 
 async function playAndStop() {
   try {
@@ -39,7 +42,7 @@ async function playAndStop() {
     console.log(response.data);
 
     await stopPlayback(stopAfter / 1000);
-    console.log('Playback stopped successfully');
+    console.log(`Playback stopped successfully after ${colorCyan}${stopAfter}${colorReset} millis.`);
   } catch (error) {
     console.error('Error:', error);
   }
