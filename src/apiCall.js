@@ -12,7 +12,6 @@ const colorCyan = '\x1b[36m';
 dotenv.config();
 
 
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
