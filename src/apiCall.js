@@ -11,6 +11,10 @@ const colorCyan = '\x1b[36m';
 
 dotenv.config();
 
+console.log('TOKEN:', process.env.TOKEN);
+console.log(`The player will stop after ${colorCyan}${stopAfter}${colorReset} millis.`)
+
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
